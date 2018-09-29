@@ -1,0 +1,26 @@
+# Homework 2: "HW2_JW3597"
+
+### Name: Jessie Wong
+
+### Date: September 28, 2018
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+getwd()
+
+"./data_files/NYC_Transit_Subway_Entrance_And_Exit_Data.csv"
+```
+
+```{r}
+nyc_transit = read_csv(file = "../data_files/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
+```
+
+```{r}
+names(nyc_transit)
+
+nyc_transit = janitor::clean_names(nyc_transit)
+names(nyc_transit)
+```
