@@ -1,21 +1,18 @@
+
 # Homework 2: "HW2_JW3597"
+#### Name: Jessie Wong
+#### Date: September 28, 2018
 
-### Name: Jessie Wong
-
-### Date: September 28, 2018
-
-```{r}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-
-Problem 1: 
+###Problem 1: 
 ```{r}
 # Read the csv for problem 1
-nyc_transit = read_csv(file = "./data_files/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
-```
+nyc_transit = read_csv(file = "../data_files/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
 
-```{r}
 # Cleaning the data from the CSV:
 
 # Cleaning the variable names after import: The variable names were changed to lower snake case
@@ -27,7 +24,6 @@ names(nyc_transit)
 # Specifying the range of columns to keep: retaining line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance
 select(nyc_transit, line, station_name, station_latitude, station_longitude, route1, route2, route3, route4, route5, route6, route7, route8, route9, route10, route11, entry, vending, entrance_type, ada)
 
-
 # Converting entry variable from character to a logical variable 
 nyc_transit$entry <- as.logical(recode(nyc_transit$entry, "YES" = "TRUE", "NO" = "FALSE"))
 View(nyc_transit$entry)
@@ -37,31 +33,42 @@ name_line = distinct(nyc_transit, station_name, line)
 nrow(name_line)
 # There are 465 distinct stations.
 
+# How many stations are ADA compliant?
 ada_compliant = distinct(nyc_transit, station_name, line, ada)
 filter(ada_compliant, ada == "TRUE")
 # There are 84 stations that are ADA compliant. 
 
 # What proportion of station extrances/exits without vending allow entrance?
-
+novending = filter(nyc_transit, vending == "NO")
+yesentry = filter(nyc_transit, entry == "TRUE")
 ```
 
-
+###Problem 2: 
 ```{r}
 # read the Mr. Trash Wheel sheet
 library(readxl)
 trash_wheel = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = "A2:N258")
 
+#Use reasonable variable names
+
 # omit rows that do not include dumpster-specific data
 na.omit(trash_wheel, cols  = "Dumpster")
 
-
+# Round number of sports balls to the nearest integer and converts the result to an integer variable
+trash_wheel$`Sports Balls Rounded` <- as.integer(trash_wheel$`Sports Balls`)
 ```
 
+```{r}
+#Read and clean precipitation data for 2016
+library(readxl)
+precip2016 = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5)
+precip2016
 
 
-
-
-
-
+#Read and clean precipitation data for 2017
+library(readxl)
+precip2017 = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4)
+precip2017
+```
 
 
