@@ -32,9 +32,6 @@ select(nyc_transit, line, station_name, station_latitude, station_longitude, rou
 nyc_transit$entry <- as.logical(recode(nyc_transit$entry, "YES" = "TRUE", "NO" = "FALSE"))
 View(nyc_transit$entry)
 
-nyc_transit$distinct_stations <- paste(nyc_transit$line, nyc_transit$station_name)
-View(nyc_transit$distinct_stations) 
-
 # How many distinct stations are there?
 name_line = distinct(nyc_transit, station_name, line)
 nrow(name_line)
@@ -44,22 +41,19 @@ ada_compliant = distinct(nyc_transit, station_name, line, ada)
 filter(ada_compliant, ada == "TRUE")
 # There are 84 stations that are ADA compliant. 
 
-
-
-
-
-  nrow(ada == "TRUE")
-# The number of stations that are ADA compliant is .   
-
 # What proportion of station extrances/exits without vending allow entrance?
-View(nyc_transit$vending)
+
 ```
 
 
 ```{r}
+# read the Mr. Trash Wheel sheet
 library(readxl)
-read_excel("./data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx")
-data
+trash_wheel = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = "A2:N258")
+
+# omit rows that do not include dumpster-specific data
+na.omit(trash_wheel, cols  = "Dumpster")
+
 
 ```
 
