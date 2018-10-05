@@ -22,7 +22,7 @@ names(nyc_transit)
 ```
 
 ```{r}
-# Specifying the range of columns to keep: retaining line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance
+
 select(nyc_transit, line, station_name, station_latitude, station_longitude, route1, route2, route3, route4, route5, route6, route7, route8, route9, route10, route11, entry, vending, entrance_type, ada)
 
 # Converting entry variable from character to a logical variable 
@@ -32,37 +32,39 @@ View(nyc_transit$entry)
 # How many distinct stations are there?
 name_line = distinct(nyc_transit, station_name, line)
 nrow(name_line)
-# There are 465 distinct stations.
 
 # How many stations are ADA compliant?
 ada_compliant = distinct(nyc_transit, station_name, line, ada)
 filter(ada_compliant, ada == "TRUE")
-# There are 84 stations that are ADA compliant. 
 
 # What proportion of station extrances/exits without vending allow entrance?
-novending = filter(nyc_transit, vending == "NO")
-yesentry = filter(nyc_transit, entry == "TRUE")
+novending_yesentry = filter(nyc_transit, vending == "NO", entry == "TRUE")
+nrow(novending_yesentry)/nrow(nyc_transit)*100
 ```
+There are 465 distinct stations. There are 84 stations that are ADA compliant. The proportion of station entrances/exits without vending allow entrace is 3.69%.
 
 ###Problem 2: 
 ```{r}
 # read the Mr. Trash Wheel sheet
 library(readxl)
-trash_wheel = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = "A2:N258")
+trash_wheel = read_excel("./data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = "A2:N258")
 
-#Use reasonable variable names
+# Variable names used in the Mr. Trash Wheel Sheet are reasonable
 
-# omit rows that do not include dumpster-specific data
+# Omit rows that do not include dumpster-specific data
 na.omit(trash_wheel, cols  = "Dumpster")
 
 # Round number of sports balls to the nearest integer and converts the result to an integer variable
 trash_wheel$`Sports Balls Rounded` <- as.integer(trash_wheel$`Sports Balls`)
+
+# Median value of sports balls in a dumpter in 2016
+median(trash_wheel$`Sports Balls Rounded`)
 ```
 
 ```{r}
 #Read and clean precipitation data for 2016
 library(readxl)
-precip2016 = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5)
+precip2016 = read_excel("./data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5)
 
 # Omit rows without precipitation data for 2016
 na.omit(precip2016, cols  = "Total")
@@ -72,30 +74,22 @@ precip2016 = mutate(precip2016, Year = "2016")
 
 #Read and clean precipitation data for 2017
 library(readxl)
-precip2017 = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4)
+precip2017 = read_excel("./data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4)
 
 # Omit rows without precipitation data for 2017
 na.omit(precip2017, cols  = "Total")
 
 # Adding a variable year for 2017
 precip2017 = mutate(precip2017, Year = "2017")
-View(precip2017)
 
 # Combine datasets and convert month to a character variable
-precip2016 = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5)
-precip2017 = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4)
+precip2016 <- read_excel("./data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5)
+precip2017 <- read_excel("./data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4)
 
-totalprecip = merge(precip2016, precip2017)
+totalprecip <- merge(precip2016, precip2017, all.x = TRUE, all.y = TRUE)
 View(totalprecip)
-
-TotalPrecip <- rbind(precip2016, precip2017)
-View(Totalprecip)
-
-(precip2016)
-(precip2017)
-TotalPrecip = merge(precip2016, precip2017)
-TotalPrecip
 ```
+The number of observations in both resulting datasets was 12 in each and (24 in total). The key variables included year, precipitation (in inches), and the month that the precipation occurred. The total precipation in 2017 was 32.93. The median number of sports balls in a dumpster in 2016 was 15.5. 
 
 ```{r}
 install.packages("devtools")
