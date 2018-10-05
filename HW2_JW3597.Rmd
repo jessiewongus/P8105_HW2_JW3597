@@ -8,19 +8,66 @@
 library(tidyverse)
 ```
 
-```{r}
-getwd()
 
-"./data_files/NYC_Transit_Subway_Entrance_And_Exit_Data.csv"
+Problem 1: 
+```{r}
+# Read the csv for problem 1
+nyc_transit = read_csv(file = "./data_files/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
 ```
 
 ```{r}
-nyc_transit = read_csv(file = "../data_files/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
-```
+# Cleaning the data from the CSV:
 
-```{r}
-names(nyc_transit)
-
+# Cleaning the variable names after import: The variable names were changed to lower snake case
 nyc_transit = janitor::clean_names(nyc_transit)
 names(nyc_transit)
 ```
+
+```{r}
+# Specifying the range of columns to keep: retaining line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance
+select(nyc_transit, line, station_name, station_latitude, station_longitude, route1, route2, route3, route4, route5, route6, route7, route8, route9, route10, route11, entry, vending, entrance_type, ada)
+
+
+# Converting entry variable from character to a logical variable 
+nyc_transit$entry <- as.logical(recode(nyc_transit$entry, "YES" = "TRUE", "NO" = "FALSE"))
+View(nyc_transit$entry)
+
+nyc_transit$distinct_stations <- paste(nyc_transit$line, nyc_transit$station_name)
+View(nyc_transit$distinct_stations) 
+
+# How many distinct stations are there?
+name_line = distinct(nyc_transit, station_name, line)
+nrow(name_line)
+# There are 465 distinct stations.
+
+ada_compliant = distinct(nyc_transit, station_name, line, ada)
+filter(ada_compliant, ada == "TRUE")
+# There are 84 stations that are ADA compliant. 
+
+
+
+
+
+  nrow(ada == "TRUE")
+# The number of stations that are ADA compliant is .   
+
+# What proportion of station extrances/exits without vending allow entrance?
+View(nyc_transit$vending)
+```
+
+
+```{r}
+library(readxl)
+read_excel("./data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx")
+data
+
+```
+
+
+
+
+
+
+
+
+
