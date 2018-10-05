@@ -10,8 +10,9 @@ library(tidyverse)
 
 ###Problem 1: 
 ```{r}
+getwd()
 # Read the csv for problem 1
-nyc_transit = read_csv(file = "../data_files/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
+nyc_transit = read_csv(file = "./data_files/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
 
 # Cleaning the data from the CSV:
 
@@ -104,21 +105,13 @@ data("brfss_smart2010")
 View(brfss_smart2010)
 brfss_smart2010
 
-# Exclude variables for class, topic, question, sample size, and everything from lower confidence limit to GeoLocation
+# Exclude variables for class, topic, question, sample size, and everything from lower confidence limit to GeoLocation / Format the Data to use appropriate variable names
 library(dplyr)
-select(brfss_smart2010, 'Year', 'Locationabbr', 'Locationdesc', 'Response', 'Data_value')
+select(brfss_smart2010, Year = Year, State = Locationabbr, County = Locationdesc, Response = Response, Health_Score = Data_value)
 
-
-
-
-
-rename(brfss_smart2010, 'Locationabbr' = 'State', 'Locationdesc' = 'County', 'Data_value'  = 'Health_Score')
-brfss_smart2010
-       
-       , 'Locationdesc', 'Response', 'Data_value')
-
-# Format the data to use appropriate variable names
-select(brfss_smart2010, Year, Locationdesc = County, Response, Data_value = Health_Score)
-
+# Structure data so that values for Response (“Excellent” to “Poor”) are column names / variables which indicate the proportion of subjects with each response (which are values of Data_value in the original dataset)
+mutate(brfss_smart2010, Excellent = )
+mutate(brfss_smart2010, Very_Good = )
+mutate(brfss_smart2010, Fair = )
+mutate(brfss_smart2010, Poor = )
 ```
-
