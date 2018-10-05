@@ -62,13 +62,63 @@ trash_wheel$`Sports Balls Rounded` <- as.integer(trash_wheel$`Sports Balls`)
 #Read and clean precipitation data for 2016
 library(readxl)
 precip2016 = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5)
-precip2016
 
+# Omit rows without precipitation data for 2016
+na.omit(precip2016, cols  = "Total")
+
+# Adding a variable year for 2016
+precip2016 = mutate(precip2016, Year = "2016")
 
 #Read and clean precipitation data for 2017
 library(readxl)
 precip2017 = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4)
-precip2017
+
+# Omit rows without precipitation data for 2017
+na.omit(precip2017, cols  = "Total")
+
+# Adding a variable year for 2017
+precip2017 = mutate(precip2017, Year = "2017")
+View(precip2017)
+
+# Combine datasets and convert month to a character variable
+precip2016 = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5)
+precip2017 = read_excel("../data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4)
+
+totalprecip = merge(precip2016, precip2017)
+View(totalprecip)
+
+TotalPrecip <- rbind(precip2016, precip2017)
+View(Totalprecip)
+
+(precip2016)
+(precip2017)
+TotalPrecip = merge(precip2016, precip2017)
+TotalPrecip
 ```
 
+```{r}
+install.packages("devtools")
+devtools::install_github("p8105/p8105.datasets")
+library(p8105.datasets)
+data("brfss_smart2010")
+View(brfss_smart2010)
+brfss_smart2010
+
+# Exclude variables for class, topic, question, sample size, and everything from lower confidence limit to GeoLocation
+library(dplyr)
+select(brfss_smart2010, 'Year', 'Locationabbr', 'Locationdesc', 'Response', 'Data_value')
+
+
+
+
+
+rename(brfss_smart2010, 'Locationabbr' = 'State', 'Locationdesc' = 'County', 'Data_value'  = 'Health_Score')
+brfss_smart2010
+       
+       , 'Locationdesc', 'Response', 'Data_value')
+
+# Format the data to use appropriate variable names
+select(brfss_smart2010, Year, Locationdesc = County, Response, Data_value = Health_Score)
+
+```
 
