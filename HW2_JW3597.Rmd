@@ -18,7 +18,7 @@ nyc_transit = read_csv(file = "./data_files/NYC_Transit_Subway_Entrance_And_Exit
 
 # Cleaning the variable names after import: The variable names were changed to lower snake case
 nyc_transit = janitor::clean_names(nyc_transit)
-names(nyc_transit)
+names(nyc_transit)  
 ```
 
 ```{r}
