@@ -14,8 +14,6 @@ getwd()
 # Read the csv for problem 1
 nyc_transit = read_csv(file = "./data_files/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
 
-# Cleaning the data from the CSV:
-
 # Cleaning the variable names after import: The variable names were changed to lower snake case
 nyc_transit = janitor::clean_names(nyc_transit)
 names(nyc_transit)  
@@ -27,7 +25,6 @@ select(nyc_transit, line, station_name, station_latitude, station_longitude, rou
 
 # Converting entry variable from character to a logical variable 
 nyc_transit$entry <- as.logical(recode(nyc_transit$entry, "YES" = "TRUE", "NO" = "FALSE"))
-View(nyc_transit$entry)
 
 # How many distinct stations are there?
 name_line = distinct(nyc_transit, station_name, line)
@@ -87,27 +84,15 @@ precip2016 <- read_excel("./data_files/HealthyHarborWaterWheelTotals2018-7-28.xl
 precip2017 <- read_excel("./data_files/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4)
 
 totalprecip <- merge(precip2016, precip2017, all.x = TRUE, all.y = TRUE)
-View(totalprecip)
 ```
 The number of observations in both resulting datasets was 12 in each and (24 in total). The key variables included year, precipitation (in inches), and the month that the precipation occurred. The total precipation in 2017 was 32.93. The median number of sports balls in a dumpster in 2016 was 15.5. 
 
 ```{r}
-install.packages("devtools")
-devtools::install_github("p8105/p8105.datasets")
 library(p8105.datasets)
 data("brfss_smart2010")
-View(brfss_smart2010)
-brfss_smart2010
 
 # Exclude variables for class, topic, question, sample size, and everything from lower confidence limit to GeoLocation / Format the Data to use appropriate variable names
 library(dplyr)
 select(brfss_smart2010, Year = Year, State = Locationabbr, County = Locationdesc, Response = Response, Health_Score = Data_value)
-
-# Structure data so that values for Response (“Excellent” to “Poor”) are column names / variables which indicate the proportion of subjects with each response (which are values of Data_value in the original dataset)
-mutate(brfss_smart2010, Excellent = )
-mutate(brfss_smart2010, Very_Good = )
-mutate(brfss_smart2010, Fair = )
-mutate(brfss_smart2010, Poor = )
-
 
 ```
