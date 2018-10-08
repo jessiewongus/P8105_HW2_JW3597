@@ -1,7 +1,8 @@
-
-# Homework 2: "HW2_JW3597"
-#### Name: Jessie Wong
-#### Date: September 28, 2018
+---
+title: "HW2_JW3597"
+name: Jessie Wong
+output: github_document
+---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -94,4 +95,5 @@ data("brfss_smart2010")
 # Exclude variables for class, topic, question, sample size, and everything from lower confidence limit to GeoLocation / Format the Data to use appropriate variable names
 library(dplyr)
 select(brfss_smart2010, Year = Year, State = Locationabbr, County = Locationdesc, Response = Response, Health_Score = Data_value)
+
 ```
